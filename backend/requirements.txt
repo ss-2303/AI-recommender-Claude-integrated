@@ -1,0 +1,8 @@
+flask
+gunicorn
+pandas
+numpy
+scikit-learn
+flask-cors
+python-dotenv
+anthropic
