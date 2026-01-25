@@ -1,4 +1,49 @@
-var API_BASE = "http://localhost:5000";
+var API_BASE = "https://book-recommender-jura.onrender.com/";
+
+function getUser() {
+  try {
+    const userData = localStorage.getItem('bookRecommenderUser');
+    return userData ? JSON.parse(userData) : null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function logout() {
+  localStorage.removeItem('bookRecommenderUser');
+  updateAuthUI();
+}
+
+function updateAuthUI() {
+  const user = getUser();
+  const loggedOutNav = document.getElementById('loggedOutNav');
+  const loggedInNav = document.getElementById('loggedInNav');
+  const userGreeting = document.getElementById('userGreeting');
+
+  if (user) {
+    loggedOutNav.classList.add('hidden');
+    loggedInNav.classList.remove('hidden');
+    loggedInNav.classList.add('flex');
+    userGreeting.textContent = `Hello, ${user.name}! 👋`;
+  } else {
+    loggedInNav.classList.add('hidden');
+    loggedInNav.classList.remove('flex');
+    loggedOutNav.classList.remove('hidden');
+  }
+}
+
+function initializeAuth() {
+  updateAuthUI();
+
+  document.getElementById('loginBtn').addEventListener('click', function() {
+    window.location.href = 'login.html';
+  });
+
+  document.getElementById('logoutBtn').addEventListener('click', function() {
+    logout();
+  });
+}
+
 function setStatus(msg) {
       document.getElementById('status').innerText = msg;
 }
@@ -156,3 +201,5 @@ document.getElementById('titleInput').addEventListener('keydown', function (e) {
           fetchRecommendations(q);
         }
 });
+
+initializeAuth();

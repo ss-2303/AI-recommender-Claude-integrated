@@ -11,6 +11,26 @@
     class="min-h-screen font-sans
       bg-[radial-gradient(circle,rgba(22,31,156,1)_0%,rgba(143,87,199,1)_45%,rgba(34,10,140,1)_100%)]"
   >
+    <header class="w-full border-b border-white/10">
+      <div class="mx-auto px-6 py-4 flex justify-between items-center">
+        <div class="text-xl font-bold text-white">
+          📚 Book Recommender
+        </div>
+        <nav id="authNav" class="flex items-center gap-4">
+          <div id="loggedOutNav" class="hidden">
+            <button id="loginBtn" class="px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white font-medium transition">
+              Login
+            </button>
+          </div>
+          <div id="loggedInNav" class="hidden flex items-center gap-4">
+            <span id="userGreeting" class="text-white font-medium"></span>
+            <button id="logoutBtn" class="px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 text-white font-medium transition">
+              Logout
+            </button>
+          </div>
+        </nav>
+      </div>
+    </header>
     <section class="w-full">
       <div class="mx-auto ont-sans px-6 pt-12 pb-12 text-center">
         <h1 class="text-4xl font-bold tracking-tight text-white sm:text-6xl">
