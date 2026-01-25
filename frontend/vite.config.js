@@ -4,6 +4,11 @@ export default defineConfig({
   // Base URL for deployment
   base: './',
 
+  // CSS processing
+  css: {
+    postcss: './postcss.config.js'
+  },
+
   build: {
     // Output directory
     outDir: 'dist',
