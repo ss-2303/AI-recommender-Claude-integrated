@@ -1,5 +1,62 @@
 var API_BASE = "https://book-recommender-jura.onrender.com/";
 
+// Simple hash-based router
+class Router {
+  constructor() {
+    this.routes = {};
+    this.currentView = null;
+
+    // Listen for hash changes
+    window.addEventListener('hashchange', () => this.handleRoute());
+    window.addEventListener('load', () => this.handleRoute());
+  }
+
+  addRoute(path, callback) {
+    this.routes[path] = callback;
+  }
+
+  navigate(path) {
+    window.location.hash = path;
+  }
+
+  handleRoute() {
+    const hash = window.location.hash.substring(1) || 'main';
+    const route = this.routes[hash];
+
+    if (route) {
+      route();
+      this.currentView = hash;
+    } else {
+      // Default to main view
+      this.navigate('main');
+    }
+  }
+
+  getCurrentView() {
+    return this.currentView;
+  }
+}
+
+// Initialize router
+const router = new Router();
+
+// View management
+function showView(viewId) {
+  // Hide all views
+  document.getElementById('loginView').classList.add('hidden');
+  document.getElementById('mainView').classList.add('hidden');
+
+  // Show the requested view
+  const targetView = document.getElementById(viewId);
+  if (targetView) {
+    targetView.classList.remove('hidden');
+  }
+}
+
+// Route definitions
+router.addRoute('main', () => showView('mainView'));
+router.addRoute('login', () => showView('loginView'));
+
 function getUser() {
   try {
     const userData = localStorage.getItem('bookRecommenderUser');
@@ -12,6 +69,7 @@ function getUser() {
 function logout() {
   localStorage.removeItem('bookRecommenderUser');
   updateAuthUI();
+  router.navigate('main');
 }
 
 function updateAuthUI() {
@@ -35,12 +93,35 @@ function updateAuthUI() {
 function initializeAuth() {
   updateAuthUI();
 
+  // Main view login button
   document.getElementById('loginBtn').addEventListener('click', function() {
-    window.location.href = 'login.html';
+    router.navigate('login');
   });
 
   document.getElementById('logoutBtn').addEventListener('click', function() {
     logout();
+  });
+
+  // Login form submission
+  document.getElementById('loginForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const name = document.getElementById('nameInput').value.trim();
+    if (name) {
+      localStorage.setItem('bookRecommenderUser', JSON.stringify({
+        name: name,
+        loginTime: new Date().toISOString()
+      }));
+
+      updateAuthUI();
+      router.navigate('main');
+      document.getElementById('nameInput').value = '';
+    }
+  });
+
+  // Back to main button in login view
+  document.getElementById('backToMainBtn').addEventListener('click', function() {
+    router.navigate('main');
   });
 }
 
