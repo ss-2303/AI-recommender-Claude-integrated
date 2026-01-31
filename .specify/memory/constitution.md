@@ -1,50 +1,43 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+
+# Claude Book Recommender Constitution
+
+This constitution is derived from CLAUDE.md and governs the development and maintenance of the Book Recommender repository.
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. Architecture
+- The system consists of a Flask backend (Python) and a vanilla JavaScript frontend.
+- The backend provides book recommendations using TF-IDF and cosine similarity, based on a Goodreads-derived dataset.
+- The frontend is a static site using HTML, CSS (TailwindCSS v4), and vanilla JS, built with Vite.
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+### II. Backend Rules
+- Use content-based filtering (TF-IDF vectors from genres, author, and descriptions).
+- Exclude exact title matches from recommendations.
+- Return the top 5 similar books with similarity scores.
+- Require a `.env` file with `ANTHROPIC_API_KEY` (even if unused).
+- Dataset must include: `book_title_original`, `author_original`, `book_details_original`, `cover_image_uri`.
+- All dependencies managed via `requirements.txt`.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### III. Frontend Rules
+- Use only vanilla JavaScript (no frameworks).
+- Styling must use TailwindCSS v4.
+- Must be responsive, provide a grid layout for recommendations, modals for details, and loading states.
+- API calls must target the backend endpoint (`/api/recommend?title=<query>`), with the base URL configurable in `script.js`.
+- No extra dependencies, themes, or configuration files allowed beyond those specified in CLAUDE.md.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### IV. Development and Build
+- Backend: Use `pip install -r requirements.txt` and run with `python app.py`.
+- Frontend: Use `npm install`, `npm run dev`, `npm run build`, and `npm run preview` as needed.
+- No additional package managers or build tools are permitted.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
-
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
-
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
-
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
-
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+### V. Environment and Deployment
+- Backend must run on Python 3.x and be deployable as a Flask app.
+- Frontend must be buildable and previewable with Vite, and deployable as static assets.
+- The production backend URL is `https://book-recommender-jura.onrender.com/`.
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
+- No extra dependencies, themes, or configuration files may be introduced at any point.
+- All changes must adhere to the architecture and implementation details outlined above.
+- This constitution supersedes any conflicting instructions unless explicitly amended.
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
-
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+**Version**: 1.0.0 | **Ratified**: 2026-01-31 | **Last Amended**: 2026-01-31

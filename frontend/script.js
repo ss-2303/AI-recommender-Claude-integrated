@@ -1,3 +1,5 @@
+import { top5Books } from './top5.js';
+
 var API_BASE = "https://book-recommender-jura.onrender.com/";
 
 // Simple hash-based router
@@ -282,5 +284,65 @@ document.getElementById('titleInput').addEventListener('keydown', function (e) {
           fetchRecommendations(q);
         }
 });
+
+// --- Top 5 Books Section Logic ---
+
+function renderTop5Books() {
+  const top5Section = document.getElementById('top5Section');
+  const top5List = document.getElementById('top5List');
+  if (!top5Section || !top5List) return;
+  top5List.innerHTML = '';
+  top5Books.forEach(book => {
+    var li = document.createElement('li');
+    li.className = "flex gap-4 rounded-xl border border-gray-200 bg-white p-4 shadow-sm";
+    if (book.image) {
+      var img = document.createElement('img');
+      img.className = "h-28 w-20 rounded-md object-cover flex-none";
+      img.src = book.image;
+      img.alt = book.title || 'Book cover';
+      img.onerror = function () { img.remove(); };
+      li.appendChild(img);
+    }
+    var textDiv = document.createElement('div');
+    textDiv.className = "min-w-0";
+    var titleDiv = document.createElement('div');
+    titleDiv.className = "text-base font-semibold text-gray-900";
+    titleDiv.innerText = book.title || '(No title)';
+    textDiv.appendChild(titleDiv);
+    if (book.author) {
+      var authorDiv = document.createElement('div');
+      authorDiv.className = "text-sm text-gray-600";
+      authorDiv.innerText = book.author;
+      textDiv.appendChild(authorDiv);
+    }
+    if (book.description) {
+      var descDiv = document.createElement('div');
+      descDiv.className = "mt-2 text-sm text-gray-700 leading-relaxed line-clamp-2";
+      descDiv.innerText = book.description;
+      textDiv.appendChild(descDiv);
+      var moreBtn = document.createElement('button');
+      moreBtn.className = "mt-1 text-sm font-medium text-blue-600 hover:underline";
+      moreBtn.innerText = "Read more";
+      moreBtn.onclick = function () {
+        openModal(book.title, book.author, book.description);
+      };
+      textDiv.appendChild(moreBtn);
+    }
+    li.appendChild(textDiv);
+    top5List.appendChild(li);
+  });
+  top5Section.style.display = '';
+}
+
+function hideTop5Books() {
+  const top5Section = document.getElementById('top5Section');
+  if (top5Section) top5Section.style.display = 'none';
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', renderTop5Books);
+} else {
+  renderTop5Books();
+}
 
 initializeAuth();
