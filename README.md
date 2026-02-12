@@ -2,13 +2,11 @@ AI Book Recommendations System - Live demo: https://book-recommender-self.vercel
 
 The system is a Content-based recommender that represents books using TF-IDF vectors derived from titles and descriptions. User input is mapped into the same feature space, and cosine similarity (or Euclidean distance) is used to compute content similarity between books. The top-5 most similar books are then ranked and returned as recommendations.
 
+The report for the Hybrid Model, which takes into account the user profile, history, and content-based metrics to generate recommendations, can be read here - https://github.com/ss-2303/Book-Recommender-System-Hybrid-Model-Report . The report walks through each step from data pre-processing and cleaning, and then explains various model and their respective evaluation metrics.
+
 The first search will take some time due to backend rendering.
 
-This project combines a React frontend, a Node/Python backend, and Claude AI integration to generate personalised book recommendations system.
-
-#The report for the Hybrid Model, which takes into account the user profile, history, and content-based metrics to generate recommendations, can be read here - https://github.com/ss-2303/Book-Recommender-System-Hybrid-Model-Report . The report walks through each step from data pre-processing and cleaning, and then explains various model and their respective evaluation metrics.
-
-
+This project combines a React frontend, a Node/Python backend, and Claude AI integration to generate a personalised book recommendations system.
 
 Model Disclaimer — Book Recommendation System
 This book recommendation system is a prototype intended for demonstration and learning purposes only. Recommendations and similarity scores are approximate and should not be considered definitive or relied upon for critical decisions.
